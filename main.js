@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     // State
     let wardrobe = [
-        { id: 1, name: 'White T-Shirt', category: 'Top', size: 'M', color: 'White', material: 'Cotton', season: 'Summer', vibe: 'Casual', image: 'https://via.placeholder.com/300', notes: 'A classic white tee.', wearCount: 10 },
-        { id: 2, name: 'Blue Jeans', category: 'Bottom', size: '32', color: 'Blue', material: 'Denim', season: 'All', vibe: 'Casual', image: 'https://via.placeholder.com/300', notes: '', wearCount: 25 },
-        { id: 3, name: 'Black Dress', category: 'Dress', size: 'S', color: 'Black', material: 'Silk', season: 'Summer', vibe: 'Chic', image: 'https://via.placeholder.com/300', notes: 'Little black dress.', wearCount: 5 },
-        { id: 4, name: 'Leather Jacket', category: 'Outerwear', size: 'M', color: 'Black', material: 'Leather', season: 'Autumn', vibe: 'Edgy', image: 'https://via.placeholder.com/300', notes: '', wearCount: 15 },
-        { id: 5, name: 'White Sneakers', category: 'Shoes', size: '9', color: 'White', material: 'Canvas', season: 'All', vibe: 'Casual', image: 'https://via.placeholder.com/300', notes: 'Go-to sneakers.', wearCount: 30 },
-        { id: 6, name: 'Gold Necklace', category: 'Accessories', size: '', color: 'Gold', material: 'Metal', season: 'All', vibe: 'Chic', image: 'https://via.placeholder.com/300', notes: '', wearCount: 2 },
+        { id: 1, name: 'White T-Shirt', category: 'Top', size: 'M', color: 'White', material: 'Cotton', season: 'Summer', vibe: 'Casual', image: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8dCUyMHNoaXJ0fGVufDB8fDB8fHww', notes: 'A classic white tee.', wearCount: 10 },
+        { id: 2, name: 'Blue Jeans', category: 'Bottom', size: '32', color: 'Blue', material: 'Denim', season: 'All', vibe: 'Casual', image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8amVhbnN8ZW58MHx8MHx8fDA%3D', notes: '', wearCount: 25 },
+        { id: 3, name: 'Black Dress', category: 'Dress', size: 'S', color: 'Black', material: 'Silk', season: 'Summer', vibe: 'Chic', image: 'https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YmxhY2slMjBkcmVzc3xlbnwwfHwwfHx8MA%3D%3D', notes: 'Little black dress.', wearCount: 5 },
+        { id: 4, name: 'Leather Jacket', category: 'Outerwear', size: 'M', color: 'Black', material: 'Leather', season: 'Autumn', vibe: 'Edgy', image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bGVhdGhlciUyMGphY2tldHxlbnwwfHwwfHx8MA%3D%3D', notes: '', wearCount: 15 },
+        { id: 5, name: 'White Sneakers', category: 'Shoes', size: '9', color: 'White', material: 'Canvas', season: 'All', vibe: 'Casual', image: 'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHdoaXRlJTIwc25lYWtlcnN8ZW58MHx8MHx8fDA%3D', notes: 'Go-to sneakers.', wearCount: 30 },
+        { id: 6, name: 'Gold Necklace', category: 'Accessories', size: '', color: 'Gold', material: 'Metal', season: 'All', vibe: 'Chic', image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdvbGQlMjBuZWNrbGFjZXxlbnwwfHwwfHx8MA%3D%3D', notes: '', wearCount: 2 },
     ];
     let isSubscribed = false;
 
