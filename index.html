@@ -1,14 +1,295 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wardrobe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+    <header class="text-center p-3">
+        <h1><a href="#" class="text-decoration-none text-dark" id="home-link">V O G U E</a></h1>
+        <nav class="nav justify-content-center">
+            <a class="nav-link" href="#" id="wardrobe-link">Wardrobe</a>
+            <a class="nav-link" href="#" id="styling-link">Styling</a>
+            <a class="nav-link" href="#" id="insights-link">Insights</a>
+            <a class="nav-link" href="#" id="pricing-link">Pricing / Upgrade</a>
+        </nav>
+    </header>
+
+    <main class="container mt-4">
+        <section id="wardrobe-section">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>Wardrobe</h2>
+                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#add-item-modal">Add Item</button>
+            </div>
+
+            <!-- Filter and Search -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <input type="text" id="search-input" class="form-control" placeholder="Search by name...">
+                </div>
+                <div class="col-md-3">
+                    <select id="category-filter" class="form-select">
+                        <option value="">All Categories</option>
+                        <option>Top</option>
+                        <option>Bottom</option>
+                        <option>Dress</option>
+                        <option>Outerwear</option>
+                        <option>Shoes</option>
+                        <option>Accessories</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="color-filter" class="form-select">
+                        <option value="">All Colors</option>
+                        <!-- Colors will be populated by JS -->
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="season-filter" class="form-select">
+                        <option value="">All Seasons</option>
+                        <option>Spring</option>
+                        <option>Summer</option>
+                        <option>Autumn</option>
+                        <option>Winter</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="vibe-filter" class="form-select">
+                        <option value="">All Vibes</option>
+                        <option>Chic</option>
+                        <option>Casual</option>
+                        <option>Edgy</option>
+                        <option>Feminine</option>
+                        <option>Tailored</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Wardrobe Grid -->
+            <div id="wardrobe-grid" class="row row-cols-2 row-cols-md-4 g-4">
+                <!-- Wardrobe items will be populated by JS -->
+            </div>
+        </section>
+
+        <section id="styling-section" class="d-none">
+            <h2>Styling</h2>
+            <ul class="nav nav-tabs" id="styling-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="daily-style-tab" data-bs-toggle="tab" data-bs-target="#daily-style" type="button" role="tab">Daily Styles</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="event-style-tab" data-bs-toggle="tab" data-bs-target="#event-style" type="button" role="tab">Event-Based Styles</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="mimic-look-tab" data-bs-toggle="tab" data-bs-target="#mimic-look" type="button" role="tab">Mimic-a-Look</button>
+                </li>
+            </ul>
+            <div class="tab-content pt-4">
+                <div class="tab-pane fade show active" id="daily-style" role="tabpanel">
+                    <div class="text-center">
+                        <button class="btn btn-dark btn-lg" id="generate-daily-style">Generate Daily Style</button>
+                        <div id="daily-style-output" class="mt-4"></div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="event-style" role="tabpanel">
+                     <div class="text-center">
+                        <input type="text" id="event-input" class="form-control mb-3" placeholder="e.g., 'Wedding guest', 'Job interview'">
+                        <button class="btn btn-dark btn-lg" id="generate-event-style">Generate Event Style</button>
+                        <div id="event-style-output" class="mt-4"></div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="mimic-look" role="tabpanel">
+                    <div class="text-center">
+                        <input type="file" id="mimic-image-upload" class="form-control mb-3">
+                        <button class="btn btn-dark btn-lg" id="generate-mimic-look">Generate Mimic Look</button>
+                        <div id="mimic-look-output" class="mt-4"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="insights-section" class="d-none">
+            <h2>Insights</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Underused Items</h5>
+                            <p class="card-text">Items you haven't worn much recently.</p>
+                            <ul id="underused-items-list" class="list-group list-group-flush"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Frequently Worn Items</h5>
+                            <p class="card-text">Your go-to pieces.</p>
+                             <ul id="frequently-worn-items-list" class="list-group list-group-flush"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Outfit Gaps</h5>
+                            <p class="card-text">A few suggestions to round out your wardrobe.</p>
+                            <ul id="outfit-gaps-list" class="list-group list-group-flush">
+                                <!-- Suggestions will be populated by JS -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing-section" class="d-none">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <h2>Upgrade Your Style</h2>
+                        </div>
+                        <div class="card-body">
+                           <table class="table">
+                               <thead>
+                                   <tr>
+                                       <th>Feature</th>
+                                       <th>Free</th>
+                                       <th>Subscription</th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                   <tr>
+                                       <td>Wardrobe Inventory</td>
+                                       <td>✔️</td>
+                                       <td>✔️</td>
+                                   </tr>
+                                   <tr>
+                                       <td>Item Attributes</td>
+                                       <td>✔️</td>
+                                       <td>✔️</td>
+                                   </tr>
+                                   <tr>
+                                       <td>Daily AI Outfit Recommendations</td>
+                                       <td>❌</td>
+                                       <td>✔️</td>
+                                   </tr>
+                                   <tr>
+                                       <td>Event-Based Styling</td>
+                                       <td>❌</td>
+                                       <td>✔️</td>
+                                   </tr>
+                                   <tr>
+                                       <td>Mimic-a-Look Styling</td>
+                                       <td>❌</td>
+                                       <td>✔️</td>
+                                   </tr>
+                                   <tr>
+                                       <td>Personalized Insights</td>
+                                       <td>❌</td>
+                                       <td>✔️</td>
+                                   </tr>
+                               </tbody>
+                           </table>
+                           <button class="btn btn-dark btn-lg" id="upgrade-button">Upgrade to Styling Mode</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add/Edit Item Modal -->
+    <div class="modal fade" id="add-item-modal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="item-modal-title">Add Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="item-form">
+                        <input type="hidden" id="item-id">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="item-name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="item-name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="item-category" class="form-label">Category</label>
+                                    <select class="form-select" id="item-category" required>
+                                        <option>Top</option>
+                                        <option>Bottom</option>
+                                        <option>Dress</option>
+                                        <option>Outerwear</option>
+                                        <option>Shoes</option>
+                                        <option>Accessories</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="item-size" class="form-label">Size</label>
+                                    <input type="text" class="form-control" id="item-size">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="item-color" class="form-label">Color</label>
+                                    <input type="text" class="form-control" id="item-color">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="item-material" class="form-label">Material</label>
+                                    <input type="text" class="form-control" id="item-material">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="item-season" class="form-label">Season</label>
+                                    <select class="form-select" id="item-season">
+                                        <option>Spring</option>
+                                        <option>Summer</option>
+                                        <option>Autumn</option>
+                                        <option>Winter</option>
+                                        <option>All</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="item-vibe" class="form-label">Vibe</label>
+                                    <select class="form-select" id="item-vibe">
+                                       <option>Chic</option>
+                                        <option>Casual</option>
+                                        <option>Edgy</option>
+                                        <option>Feminine</option>
+                                        <option>Tailored</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="item-image" class="form-label">Image</label>
+                                    <input type="file" class="form-control" id="item-image">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="item-notes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="item-notes" rows="3"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-dark">Save Item</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
