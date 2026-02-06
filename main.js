@@ -70,6 +70,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Wardrobe ---
+    let capturedImageData = null;
+    const cameraModal = new bootstrap.Modal(document.getElementById('camera-modal'));
+    const cameraStream = document.getElementById('camera-stream');
+    const cameraCanvas = document.getElementById('camera-canvas');
+    const captureButton = document.getElementById('capture-button');
+    const retakeButton = document.getElementById('retake-button');
+    const savePhotoButton = document.getElementById('save-photo-button');
+    let stream = null;
+
+    document.getElementById('camera-modal').addEventListener('shown.bs.modal', async () => {
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            cameraStream.srcObject = stream;
+            cameraStream.classList.remove('d-none');
+            cameraCanvas.classList.add('d-none');
+            captureButton.classList.remove('d-none');
+            retakeButton.classList.add('d-none');
+        } catch (err) {
+            console.error("Error accessing camera: ", err);
+            alert('Could not access the camera. Please check your browser permissions.');
+            cameraModal.hide();
+        }
+    });
+
+    document.getElementById('camera-modal').addEventListener('hidden.bs.modal', () => {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+        }
+    });
+
     function renderWardrobe(items = wardrobe) {
         wardrobeGrid.innerHTML = '';
         if (items.length === 0) {
@@ -111,6 +141,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('season-filter').addEventListener('change', handleFiltering);
     document.getElementById('vibe-filter').addEventListener('change', handleFiltering);
 
+    document.getElementById('clear-filters-btn').addEventListener('click', () => {
+        document.getElementById('search-input').value = '';
+        document.getElementById('category-filter').value = '';
+        document.getElementById('color-filter').value = '';
+        document.getElementById('season-filter').value = '';
+        document.getElementById('vibe-filter').value = '';
+        handleFiltering();
+    });
+
     function handleFiltering() {
         const searchTerm = document.getElementById('search-input').value.toLowerCase();
         const category = document.getElementById('category-filter').value;
@@ -128,10 +167,43 @@ document.addEventListener('DOMContentLoaded', () => {
         renderWardrobe(filteredItems);
     }
     
+    
+    captureButton.addEventListener('click', () => {
+        const context = cameraCanvas.getContext('2d');
+        cameraCanvas.width = cameraStream.videoWidth;
+        cameraCanvas.height = cameraStream.videoHeight;
+        context.drawImage(cameraStream, 0, 0, cameraCanvas.width, cameraCanvas.height);
+        
+        cameraStream.classList.add('d-none');
+        cameraCanvas.classList.remove('d-none');
+        captureButton.classList.add('d-none');
+        retakeButton.classList.remove('d-none');
+    });
+
+    retakeButton.addEventListener('click', () => {
+        cameraStream.classList.remove('d-none');
+        cameraCanvas.classList.add('d-none');
+        captureButton.classList.remove('d-none');
+        retakeButton.classList.add('d-none');
+    });
+
+    savePhotoButton.addEventListener('click', () => {
+        capturedImageData = cameraCanvas.toDataURL('image/png');
+    });
+
     // --- Item CRUD ---
     itemForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const id = document.getElementById('item-id').value;
+        const imageInput = document.getElementById('item-image');
+        let imageUrl = 'https://via.placeholder.com/300'; // Default mock image
+
+        if (capturedImageData) {
+            imageUrl = capturedImageData;
+        } else if (imageInput.files && imageInput.files[0]) {
+            imageUrl = URL.createObjectURL(imageInput.files[0]);
+        }
+        
         const newItem = {
             id: id ? parseInt(id) : Date.now(),
             name: document.getElementById('item-name').value,
@@ -141,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
             material: document.getElementById('item-material').value,
             season: document.getElementById('item-season').value,
             vibe: document.getElementById('item-vibe').value,
-            image: 'https://via.placeholder.com/300', // Mock image
+            image: imageUrl,
             notes: document.getElementById('item-notes').value,
             wearCount: id ? wardrobe.find(item => item.id === parseInt(id)).wearCount : 0,
         };
@@ -156,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
         populateFilterOptions();
         itemModal.hide();
         itemForm.reset();
+        capturedImageData = null;
     });
 
     wardrobeGrid.addEventListener('click', (e) => {
@@ -188,6 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
         itemForm.reset();
         itemModalTitle.textContent = 'Add Item';
         document.getElementById('item-id').value = '';
+        capturedImageData = null;
     });
 
     // --- Styling ---
